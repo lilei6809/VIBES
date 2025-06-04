@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package vibes.events.regional_content; // 包声明
+
+// Java 代码将生成在 com.vibes.events.regional_content.pb 包下
+option java_package = "com.vibes.events.regional_content.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// import "vibes/common/common.proto"; // GeoLocation 不是直接在此事件中使用，但如果区域定义复杂可能需要
+
+// 热门帖子信息
+message HotPostInfo {
+  string post_id = 1;
+  double score = 2; // 该帖子的热度分值
+}
+
+// 热门用户信息
+message HotUserInfo {
+  string user_id = 1;
+  double score = 2; // 该用户的热度分值
+}
+
+// --- 区域热门内容更新事件 ---
+// 由 RegionalHotContentService 发布，供 FeedService 冷启动等场景消费
+// Topic: vibes.events.regional_content.updated
+// Key: region_id
+message RegionalHotContentUpdatedEvent {
+  string region_id = 1;                 // 区域的唯一标识 (e.g., "city_123", "geohash_abc", "radius_lat_lon_km")
+  repeated HotPostInfo hot_posts = 2;   // 该区域的热门帖子列表
+  repeated HotUserInfo hot_users = 3;   // 该区域的热门用户列表
+  int64 update_timestamp = 4;           // 本次热门内容更新的时间戳 (UTC milliseconds)
+  string time_window_description = 5;   // 用于生成此热门内容的时间窗口描述 (e.g., "DAILY_ROLLING_24H")
+} 

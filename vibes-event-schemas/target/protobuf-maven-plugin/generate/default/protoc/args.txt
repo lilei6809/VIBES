@@ -1,0 +1,9 @@
+--java_out=E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\chat\chat_events.proto
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\common\common.proto
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\interaction\interaction_events.proto
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\match\match_events.proto
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\post\post_events.proto
+E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto\vibes\user\user_events.proto
+--proto_path=E:\desktop\cs\VIBES\vibes-event-schemas\src\main\proto
+--proto_path=E:\desktop\cs\VIBES\vibes-event-schemas\target\protobuf-maven-plugin\generate\default\archives\protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg

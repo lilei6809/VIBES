@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package vibes.events.chat; // 包声明
+
+// Java 代码将生成在 com.vibes.events.chat.pb 包下
+option java_package = "com.vibes.events.chat.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// --- 聊天消息发送事件 ---
+// Topic: vibes.events.chat.message_sent
+// Key: chat_id (可以等于 match_id)
+message ChatMessageSentEvent {
+  string message_id = 1;    // 消息的唯一ID
+  string chat_id = 2;       // 聊天会话ID (例如，可以是 UserMatchCreatedEvent 中的 match_id)
+  string sender_id = 3;     // 发送者用户ID
+  string receiver_id = 4;   // 接收者用户ID
+  string content_type = 5;  // 内容类型, e.g., "TEXT" (MVP只支持文本)
+  string content = 6;       // 消息内容
+  int64 sent_timestamp = 7; // UTC milliseconds，消息发送时间戳
+} 

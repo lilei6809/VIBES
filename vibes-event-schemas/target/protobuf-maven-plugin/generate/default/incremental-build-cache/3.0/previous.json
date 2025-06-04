@@ -1,0 +1,24 @@
+{
+    "proto_dependencies": {
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/source_context.proto": "u797AT7SKb5zBQDymHK8E90nSk-_xJxCYboeohuQYesq7LJsynzi2ZegwEcYUjDRQhkn8BiLXYpzp8qsGGEuNw",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/type.proto": "mJzA38H-nieEslNbG2dE2WEUkrVovu3xTCpRowLP20WWomMy95csyapz73VOUpdP8z3lfMa7B9IdpDrqRw25Yg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/descriptor.proto": "KQrD0pFUzzPH3ftAkPY459592ILpU7SaTsqbrv6cZKQQsVGiTCdsfv5Mdd3iFp-gMk9fr869a8u4vzgiUCA8fg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/wrappers.proto": "qKupkcm5OzhNSzQuCSUYROpreh7RhueeQf66zjUu_P7F7L3LKvj-xnyRFQdGk3-UEC-D0ZPaAzwlhcxYuXNrpQ",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/empty.proto": "XAGYShQHLDtUhD8E1dLcsHhJlYByCmfZQq7HNQ9U_7pCkJwhECHqD0aO4lCIfwudUUg0YoOWbk_PdhbwotUEXg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/api.proto": "VVfDjQ0HTBjwnaGGnGx8IpVb7XW70l8tYdiVkYKyK4tpYD57UJuFagVdo97HUSfoPSV1wADL5ETVq55SD_yxqg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/any.proto": "Ms14GYifYB5Kykfq-jcqsqzm_y_H-HvjRZRMlFGGYLPgd8jeXn3d6cTBLo6HPxfIYH9NKhVdVvsYCk2-uEYNWA",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/duration.proto": "PfVvhag4koTDdSGKHfQQ6XLnJL0fU2HJcYsjloGi5hlJZQ_O6qVOOF4ndmiXZhQYPnEtpuTs_JKp3INVqExI5w",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/field_mask.proto": "KJkVyrHfg1t5wtasIo_dXMoPFDMOI_xm7f7zmUF4uAqcbSYsuRZZ4onDXyZhKnE590QKIeTvrnJlq2YLeWKT9w",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/struct.proto": "TQtFx6-hLQ3SE9U31nqDE_QOsEk0sUacaNn2Wtc9PvIBhLRS3IquEOwHK3UDyWMQrRzrml09yH6IIPBJlM7kEg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/target/protobuf-maven-plugin/generate/default/archives/protobuf-java-3.25.3-Q7rpVtAT9cpAxJRtyOmvB9tMkXg/google/protobuf/timestamp.proto": "Zbn8m9tF-22TY9XGpOYg-sSVzfdYXv4q_B6EB1tJHoB5qQxLtibg8lYkWQ7CGAarLtLlMEy1OmJZd4a6cATTgQ"
+    },
+    "proto_sources": {
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/common/common.proto": "w52ErerLzvSnKUTdm1eYMWc3ednIMmmjhAcWLnDlHTv2ZaLshXPF6s2tFJ27GZs63mpIKvKDGi4hgaV5K1PfRQ",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/interaction/interaction_events.proto": "Tx0Oh7V-FyxIZVFGyYroup_2YP8su57-dXM9WeQ42Mxw1JOz8_8eeLqdXiGVyIdEmxVBASiG7jTQ462-PxpiIg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/chat/chat_events.proto": "DspF0jJoeDtVggOKshsaKgPa9JPeUcsEWNWHIR-V7-KrxwdfE-gJA9gwkOQ489qs6oXJHwRrTuEz9gR4-6O6vg",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/post/post_events.proto": "8aDSn8qAn-CL4zHtCMGX8RCMoC3srmfYr6VDeAno6djZBZ2IGoPM2qni1yy-nz4B09lPulquKPo4gIGtsmdeeQ",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/user/user_events.proto": "zjVYR9pxUy3VWcMLCMlyDRRIoPj4II3sbSDN6YooXDZHtA_0Xk7IztJ5VW7y2vXoT6hrIE1ItWo9xSmphfENMw",
+      "file:///E:/desktop/cs/VIBES/vibes-event-schemas/src/main/proto/vibes/match/match_events.proto": "p0m8ymfLG9av4Loxl_xdrSb2tULLMJ72ZEF_G9XQXBoRxJhHwpJeYnC9toABiHn0ZjLVWuen6wKsKWf_5IfYJg"
+    },
+    "descriptor_files": {}
+  }

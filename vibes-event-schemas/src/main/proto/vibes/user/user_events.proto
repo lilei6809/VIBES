@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package vibes.events.user; // 包声明
+
+import "vibes/common/common.proto"; // 导入通用类型
+
+// Java 代码将生成在 com.vibes.events.user.pb 包下
+option java_package = "com.vibes.events.user.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// --- 用户注册事件 ---
+// Topic: vibes.events.user.registered
+// Key: userId
+message UserRegisteredEvent {
+  string user_id = 1;
+  int64 registration_timestamp = 2; // UTC milliseconds
+  string registration_method = 3;   // e.g., "EMAIL", "PHONE"
+  vibes.common.GeoLocation registration_location = 4;
+  string nickname = 5;
+  optional string email = 6;
+  optional string phone_number = 7;
+  optional string gender = 8;
+  optional string birth_date = 9; // YYYY-MM-DD
+}
+
+// --- 用户资料更新事件 ---
+// Topic: vibes.events.user.profile_updated
+// Key: userId
+message UserProfileUpdatedEvent {
+  string user_id = 1;
+  int64 update_timestamp = 2;
+  optional string nickname = 3;
+  optional string gender = 4;
+  optional string birth_date = 5; // YYYY-MM-DD
+  optional string city = 6;
+  // 头像URL更新也可以通过 UserPhotoUploadedEvent 或在此处添加 optional string new_avatar_url = 7;
+}
+
+// --- 用户照片上传事件 ---
+// Topic: vibes.events.user.photo_uploaded
+// Key: userId
+message UserPhotoUploadedEvent {
+  string user_id = 1;
+  string photo_id = 2; // 照片的唯一ID
+  string photo_url = 3;
+  int32 sequence = 4; // 照片顺序 (例如1是主头像)
+  int64 upload_timestamp = 5;
+} 

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package vibes.common; // 包声明
+
+// Java 代码将生成在 com.vibes.common.pb 包下
+option java_package = "com.vibes.common.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// 地理位置信息
+message GeoLocation {
+  double latitude = 1;  // 纬度
+  double longitude = 2; // 经度
+} 

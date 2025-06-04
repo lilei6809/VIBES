@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package vibes.events.match; // 包声明
+
+// Java 代码将生成在 com.vibes.events.match.pb 包下
+option java_package = "com.vibes.events.match.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// --- 用户匹配成功事件 ---
+// Topic: vibes.events.match.created
+// Key: match_id (或者 user_id1 + user_id2 排序后的组合，以确保唯一性)
+message UserMatchCreatedEvent {
+  string match_id = 1;          // 匹配的唯一ID
+  string user_id1 = 2;          // 参与匹配的用户1的ID
+  string user_id2 = 3;          // 参与匹配的用户2的ID
+  int64 match_timestamp = 4;    // UTC milliseconds，匹配成功的时间戳
+  // 可选: 记录促成此次匹配的双方 UserInterestDeclaredEvent 的ID
+  optional string user1_interest_event_id = 5;
+  optional string user2_interest_event_id = 6;
+} 

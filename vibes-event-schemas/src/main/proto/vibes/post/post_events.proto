@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package vibes.events.post; // 包声明
+
+import "vibes/common/common.proto"; // 导入通用类型
+
+// Java 代码将生成在 com.vibes.events.post.pb 包下
+option java_package = "com.vibes.events.post.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// --- 帖子发布事件 ---
+// Topic: vibes.events.post.created
+// Key: postId
+message PostCreatedEvent {
+  string post_id = 1;
+  string author_id = 2;
+  string text_content = 3;
+  repeated string image_urls = 4; // 图片URL列表
+  vibes.common.GeoLocation location = 5; // 帖子发布时的地理位置
+  int64 creation_timestamp = 6;    // UTC milliseconds
+}
+
+// --- 帖子浏览事件 ---
+// (在 SOW 和 phase5_technical_specification.md 中已定义)
+// Topic: vibes.events.post.viewed
+// Key: postId (或 viewerId，取决于主要的查询和消费模式)
+message PostViewedEvent {
+  string post_id = 1;
+  string viewer_id = 2;                 // 浏览者ID
+  string author_id = 3;                 // 帖子作者ID
+  int64 view_timestamp = 4;             // UTC milliseconds
+  int32 view_duration_seconds = 5;      // 浏览时长（秒）
+  vibes.common.GeoLocation viewer_location = 6; // 浏览者查看帖子时的地理位置
+} 

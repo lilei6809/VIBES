@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vibes</groupId>
+    <artifactId>vibes-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>vibes-parent</name>
+    <description>Parent POM for the VIBES microservices project</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <spring-boot.version>3.2.5</spring-boot.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version> <!-- Corresponds to Spring Boot 3.2.x -->
+        <testcontainers.version>1.19.8</testcontainers.version>
+        <confluent.platform.version>7.4.1</confluent.platform.version>
+        <kafka.clients.version>3.4.1</kafka.clients.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <slf4j.version>2.0.12</slf4j.version>
+        <h2.version>2.2.224</h2.version>
+        <lombok.version>1.18.30</lombok.version>
+
+        <!-- Protobuf versions -->
+        <protobuf.version>3.25.3</protobuf.version>
+        <protobuf-java-format.version>1.4</protobuf-java-format.version> <!-- For formatting generated JSON from Proto -->
+        <ascopes.protobuf-maven-plugin.version>3.2.0</ascopes.protobuf-maven-plugin.version> <!-- Check latest version for ascopes plugin -->
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <grpc.version>1.60.0</grpc.version> <!-- If gRPC is ever needed with Protobuf -->
+
+        <!-- Maven plugin versions -->
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+    </properties>
+
+    <modules>
+        <module>vibes-event-schemas</module>
+        <module>vibes-api-gateway</module>
+        <module>vibes-user-service</module>
+        <module>vibes-post-service</module>
+        <module>vibes-interaction-service</module>
+        <module>vibes-match-service</module>
+        <module>vibes-regional-hot-content-service</module>
+        <module>vibes-feed-service</module>
+        <module>vibes-chat-service</module>
+        <!-- Add other microservice modules here -->
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot Bill of Materials (BOM) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud Bill of Materials (BOM) -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Kafka Clients -->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>${kafka.clients.version}</version>
+            </dependency>
+
+            <!-- Confluent Platform Dependencies (for Protobuf SerDes and Schema Registry client) -->
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-protobuf-serializer</artifactId>
+                <version>${confluent.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-schema-registry-client</artifactId>
+                <version>${confluent.platform.version}</version>
+            </dependency>
+            <!-- Explicitly add protobuf-java as a managed dependency -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+
+
+            <!-- H2 Database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Testcontainers BOM for managing versions of Testcontainers modules -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- JUnit 5 Bill of Materials (BOM) for managing versions of JUnit modules -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Spring Boot Maven Plugin -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Maven Compiler Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <!-- Maven Surefire Plugin (for running tests) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <!-- Build Helper Maven Plugin (used in vibes-event-schemas to add generated sources) -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.github.ascopes</groupId>
+                    <artifactId>protobuf-maven-plugin</artifactId>
+                    <version>${ascopes.protobuf-maven-plugin.version}</version>
+                    <configuration>
+                        <!-- The plugin will download protoc matching this version -->
+                        <protocVersion>${protobuf.version}</protocVersion>
+                        <!-- <sourceProtoLookupPath>${project.basedir}/src/main/proto</sourceProtoLookupPath> -->
+                        <sourceDirectories>
+                            <sourceDirectory>${project.basedir}/src/main/proto</sourceDirectory>
+                        </sourceDirectories>
+                        <!-- For test protos if you have them in src/test/proto -->
+                        <testSourceDirectories>
+                            <testSourceDirectory>${project.basedir}/src/test/proto</testSourceDirectory>
+                        </testSourceDirectories>
+                        <!-- <javaTestOutputDirectory>${project.build.directory}/generated-test-sources/protobuf</javaTestOutputDirectory> -->
+                        <!-- Add other configurations as needed, e.g., for plugins like protoc-gen-grpc-java -->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>       <!-- Generates main sources -->
+                                <goal>generate-test</goal>  <!-- Generates test sources -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Build Helper Maven Plugin to add generated sources (still needed) -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>add-protobuf-sources</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>${project.build.directory}/generated-sources/protobuf/java</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>add-protobuf-test-sources</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>add-test-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>${project.build.directory}/generated-test-sources/protobuf/java</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Adding Confluent repository for their artifacts if not available in Maven Central -->
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project> 

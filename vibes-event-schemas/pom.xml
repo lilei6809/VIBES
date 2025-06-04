@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Parent POM Declaration -->
+    <parent>
+        <groupId>com.vibes</groupId>
+        <artifactId>vibes-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath> <!-- Important: Path to the parent pom -->
+    </parent>
+
+    <!-- Module's own ArtifactId -->
+    <artifactId>vibes-event-schemas</artifactId>
+    <!-- Packaging for a library JAR (default is jar, so can be omitted) -->
+    <!-- <packaging>jar</packaging> -->
+
+    <name>vibes-event-schemas</name>
+    <description>Module for Protobuf event schemas and generated Java classes.</description>
+
+    <dependencies>
+        <!-- Dependencies specific to this module -->
+        <!-- For vibes-event-schemas, this would include protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- REMOVE os-maven-plugin -->
+
+            <!-- Protobuf Maven Plugin (io.github.ascopes) -->
+            <!-- Configuration and version are inherited from pluginManagement in parent POM -->
+            <plugin>
+                <groupId>io.github.ascopes</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Build Helper Plugin to add generated sources (activated by parent) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

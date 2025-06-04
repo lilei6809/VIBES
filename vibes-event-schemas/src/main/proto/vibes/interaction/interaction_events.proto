@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package vibes.events.interaction; // 包声明
+
+import "vibes/common/common.proto"; // 导入通用类型
+
+// Java 代码将生成在 com.vibes.events.interaction.pb 包下
+option java_package = "com.vibes.events.interaction.pb";
+// 每个 message 将生成一个单独的 .java 文件
+option java_multiple_files = true;
+
+// --- 帖子点赞事件 ---
+// Topic: vibes.events.interaction.post_liked
+// Key: postId (或 likerId)
+message PostLikedEvent {
+  string post_id = 1;
+  string liker_id = 2;    // 点赞者ID
+  string author_id = 3;   // 帖子作者ID
+  int64 like_timestamp = 4; // UTC milliseconds
+  vibes.common.GeoLocation liker_location = 5; // 点赞者点赞时的地理位置
+}
+
+// --- 用户表达兴趣事件 ---
+// (例如 "喜欢" 另一个用户)
+// Topic: vibes.events.interaction.interest_declared
+// Key: targetUserId (或 declarerId)
+message UserInterestDeclaredEvent {
+  string declarer_id = 1;     // 表达兴趣的用户ID
+  string target_user_id = 2;  // 被表达兴趣的用户ID
+  int64 declaration_timestamp = 3; // UTC milliseconds
+  vibes.common.GeoLocation declarer_location = 4; // 表达兴趣者当时的地理位置
+  optional string source_post_id = 5; // 可选：如果兴趣是通过查看某个帖子时表达的
+} 
