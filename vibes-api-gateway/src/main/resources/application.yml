@@ -1,0 +1,85 @@
+server:
+  port: 8080 # API Gateway 监听的端口
+
+spring:
+  application:
+    name: vibes-api-gateway # 应用名称
+  cloud:
+    gateway:
+      routes:
+        # 用户服务路由 (UserService)
+        - id: user-service-route
+          uri: http://localhost:8081 # 占位符 URI，下游服务端口
+          predicates:
+            - Path=/v1/users/**      # 匹配路径 /v1/users/ 开头的所有请求
+          filters:
+            - StripPrefix=1          # 转发到下游服务前，移除路径中的第一个部分 (/v1)
+                                     # 这样 UserService 接收到的路径是 /users/**
+
+        # 帖子服务路由 (PostService)
+        - id: post-service-route
+          uri: http://localhost:8082 # 占位符 URI，下游服务端口
+          predicates:
+            - Path=/v1/posts/**      # 匹配路径 /v1/posts/ 开头的所有请求
+          filters:
+            - StripPrefix=1          # 移除 /v1
+
+        # 互动服务路由 (InteractionService)
+        - id: interaction-service-route
+          uri: http://localhost:8083 # 占位符 URI
+          predicates:
+            - Path=/v1/interactions/**
+          filters:
+            - StripPrefix=1
+
+        # 匹配服务路由 (MatchService)
+        - id: match-service-route
+          uri: http://localhost:8084 # 占位符 URI
+          predicates:
+            - Path=/v1/matches/**
+          filters:
+            - StripPrefix=1
+
+        # 聊天服务路由 (ChatService)
+        - id: chat-service-route
+          uri: http://localhost:8085 # 占位符 URI
+          predicates:
+            - Path=/v1/chats/**
+          filters:
+            - StripPrefix=1
+
+        # 区域热门内容服务路由 (RegionalHotContentService)
+        - id: regional-hot-content-service-route
+          uri: http://localhost:8086 # 占位符 URI
+          predicates:
+            - Path=/v1/content/regional/**
+          filters:
+            - StripPrefix=1
+
+        # 推荐流服务路由 (FeedService)
+        - id: feed-service-route
+          uri: http://localhost:8087 # 占位符 URI
+          predicates:
+            - Path=/v1/feed/**
+          filters:
+            - StripPrefix=1
+
+      discovery:
+        locator:
+          enabled: false # MVP 阶段，我们使用硬编码URL，不依赖服务发现客户端 (如 Eureka/Consul)
+          lower-case-service-id: true 
+
+# Logging configuration to include Trace ID and Span ID
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n"
+
+# Optional: Management endpoints (actuator) - good for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus # Expose common actuator endpoints
+  endpoint:
+    health:
+      show-details: always # Show full health details 
