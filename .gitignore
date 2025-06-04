@@ -4,8 +4,8 @@
 *.war
 *.ear
 
-# Maven
-/target/
+# Maven build directories
+target/
 
 # IntelliJ IDEA
 .idea/
