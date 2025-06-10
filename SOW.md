@@ -162,20 +162,20 @@ graph LR
 (基于 `docs/phase5_technical_specification.md` 中的实现分解)
 
 ### Phase 1: 核心基础设施与基础服务设置
-*   [ ] **Task 1.1:** 初始化 Maven 多模块项目结构 (`vibes-parent` 及各子模块: `vibes-api-gateway`, `vibes-user-service`, ..., `vibes-event-schemas`).
-*   [ ] **Task 1.2:** 在 `vibes-event-schemas` 模块中定义所有 `.proto` 文件 (common, user, post, interaction, match, chat, regional_content) 并配置 `protobuf-maven-plugin` 和 `build-helper-maven-plugin` 以生成 Java 类。
-*   [ ] **Task 1.3:** 编写 Docker Compose 文件 (`docker-compose.yml`) 用于本地启动 Apache Kafka 和 Confluent Schema Registry。
-*   [ ] **Task 1.4:** 在 `vibes-api-gateway` 模块中引入 Spring Cloud Gateway 依赖。
-*   [ ] **Task 1.5:** 配置 API Gateway 基础路由规则 (可指向临时占位服务或后续开发的服务)。
-*   [ ] **Task 1.6:** 配置分布式追踪基础 (e.g., Micrometer Tracing) 在 API Gateway 和一个示例服务中，确保 Correlation ID 生成与传递。
-*   [ ] **Task 1.7:** 配置 Testcontainers (`KafkaContainer`, `SchemaRegistryContainer` if available, or mock) 在一个测试模块或父 POM 中，用于后续集成测试。
+*   [x] **Task 1.1:** 初始化 Maven 多模块项目结构 (`vibes-parent` 及各子模块: `vibes-api-gateway`, `vibes-user-service`, ..., `vibes-event-schemas`).
+*   [x] **Task 1.2:** 在 `vibes-event-schemas` 模块中定义所有 `.proto` 文件 (common, user, post, interaction, match, chat, regional_content) 并配置 `protobuf-maven-plugin` 和 `build-helper-maven-plugin` 以生成 Java 类。
+*   [x] **Task 1.3:** 编写 Docker Compose 文件 (`docker-compose.yml`) 用于本地启动 Apache Kafka 和 Confluent Schema Registry。
+*   [x] **Task 1.4:** 在 `vibes-api-gateway` 模块中引入 Spring Cloud Gateway 依赖。
+*   [x] **Task 1.5:** 配置 API Gateway 基础路由规则 (可指向临时占位服务或后续开发的服务)。
+*   [x] **Task 1.6:** 配置分布式追踪基础 (e.g., Micrometer Tracing) 在 API Gateway 和一个示例服务中，确保 Correlation ID 生成与传递。
+*   [x] **Task 1.7:** 配置 Testcontainers (`KafkaContainer`, `SchemaRegistryContainer` if available, or mock) 在一个测试模块或父 POM 中，用于后续集成测试。
 
 ### Phase 2: 用户模块 (`vibes-user-service`)
-*   [ ] **Task 2.1:** 实现用户注册 API (`POST /v1/users/register`):
-    *   [ ] 定义注册请求 DTO (含昵称、邮箱/手机、密码、地理位置等)。
-    *   [ ] 实现用户数据到 H2 数据库的持久化 (JPA Entity, Repository)。
-    *   [ ] 实现密码哈希存储。
-    *   [ ] 发布 `UserRegisteredEvent` 到 Kafka (使用 Protobuf, 与 Schema Registry 集成)。
+*   [x] **Task 2.1:** 实现用户注册 API (`POST /v1/users/register`):
+    *   [x] 定义注册请求 DTO (含昵称、邮箱/手机、密码、地理位置等)。
+    *   [x] 实现用户数据到 H2 数据库的持久化 (JPA Entity, Repository)。
+    *   [x] 实现密码哈希存储。
+    *   [x] 发布 `UserRegisteredEvent` 到 Kafka (使用 Protobuf, 与 Schema Registry 集成)。
 *   [ ] **Task 2.2:** 实现用户登录 API (`POST /v1/users/login`):
     *   [ ] 定义登录请求 DTO。
     *   [ ] 实现密码校验。

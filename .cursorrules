@@ -2,6 +2,14 @@
 #我们的软件需要非常强的可迭代性
 #仔细阅读 SOW.md,  以及 docs 下的项目文档, 便于理解我们的 project
 
+If I ask you to generate a diagram, please follow this color scheme:
+Background: black (#000000)
+Text: white (#FFFFFF)
+Success paths: green (#4CAF50)
+Error paths: red (#F44336)
+Warnings: yellow (#FFC107)
+Also, please make sure the text size is large enough to be readable and that the contrast between elements is high for better visibility. 
+
 # Coding Mode
 Start all chats with "🧑‍🏫"
 

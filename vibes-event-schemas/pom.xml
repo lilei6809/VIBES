@@ -118,6 +118,33 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Community Schema Registry Plugin (imflog) -->
+            <plugin>
+                <groupId>com.github.imflog</groupId>
+                <artifactId>schema-registry-plugin</artifactId>
+                <version>1.10.0</version> <!-- A recent, stable version of this plugin -->
+                <configuration>
+                    <url>http://localhost:8081/</url>
+                    <output>src/main/java</output> <!-- Not used for registration, but often needed -->
+                    <subjects>
+                        <!-- Define subjects and their corresponding schema files -->
+                        <subject>vibes.events.user.registered-value</subject>
+                        <file>src/main/proto/vibes/user/user_events.proto</file>
+                        <!-- We can add all other schemas here as well -->
+                    </subjects>
+                    <!-- For Protobuf, we need to specify the type mapping -->
+                    <proto>
+                        <references>
+                            <!-- If a proto file imports another, like user_events.proto imports common.proto -->
+                             <reference>
+                                <name>vibes/common/common.proto</name>
+                                <!-- The path is relative to the proto source root -->
+                             </reference>
+                        </references>
+                    </proto>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

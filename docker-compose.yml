@@ -49,5 +49,19 @@ services:
       timeout: 10s
       retries: 5
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: true
+    volumes:
+      - E:/desktop/cs/kafka-ui/kui/config.yml:/etc/kafkaui/dynamic_config.yaml
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+
 volumes:
   kafka_data: 
