@@ -46,4 +46,26 @@ message UserPhotoUploadedEvent {
   string photo_url = 3;
   int32 sequence = 4; // 照片顺序 (例如1是主头像)
   int64 upload_timestamp = 5;
+}
+
+// --- 用户登录成功事件 ---
+// Topic: vibes.events.user.login_succeeded
+// Key: userId
+message UserLoginSucceededEvent {
+  string user_id = 1;
+  int64 login_timestamp = 2;
+  string ip_address = 3;
+  string user_agent = 4; // e.g., "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ..."
+}
+
+// --- 用户登录失败事件 ---
+// Topic: vibes.events.user.login_failed
+// Key: email (the email used for the login attempt)
+message UserLoginFailedEvent {
+  string email = 1;
+  int64 failure_timestamp = 2;
+  string reason = 3; // e.g., "USER_NOT_FOUND", "INVALID_PASSWORD"
+  string ip_address = 4;
+  string user_agent = 5;
+  optional string user_id_if_found = 6; // If the user was found but password was wrong
 } 

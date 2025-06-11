@@ -1,0 +1,5 @@
+kafka:
+  clusters:
+    - name: vibes-cluster
+      bootstrapServers: "kafka:29092"
+      schemaRegistry: http://schema-registry:8081 # Use the container name and internal port

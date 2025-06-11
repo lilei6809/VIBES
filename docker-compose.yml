@@ -34,17 +34,17 @@ services:
     image: confluentinc/cp-schema-registry:${CONFLUENT_PLATFORM_VERSION:-7.4.1}
     container_name: schema-registry
     ports:
-      - "8081:8081"
+      - "${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}"
     depends_on:
       kafka:
         condition: service_healthy
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:${SCHEMA_REGISTRY_PORT}
       SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8081/subjects || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:${SCHEMA_REGISTRY_PORT}/subjects || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -53,11 +53,11 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
-      - "8080:8080"
+      - "${KAFKA_UI_PORT}:8080"
     environment:
       DYNAMIC_CONFIG_ENABLED: true
     volumes:
-      - E:/desktop/cs/kafka-ui/kui/config.yml:/etc/kafkaui/dynamic_config.yaml
+      - E:/desktop/cs/VIBES/config.yml:/etc/kafkaui/dynamic_config.yaml
     depends_on:
       kafka:
         condition: service_healthy

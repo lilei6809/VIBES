@@ -1,64 +1,61 @@
 server:
-  port: 8080 # API Gateway 监听的端口
+  port: ${GATEWAY_PORT:8080} # API Gateway 监听的端口
 
 spring:
   application:
     name: vibes-api-gateway # 应用名称
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
       routes:
         # 用户服务路由 (UserService)
-        - id: user-service-route
-          uri: http://localhost:8081 # 占位符 URI，下游服务端口
+        - id: user_service_route
+          uri: http://localhost:${USER_SERVICE_PORT:9081} # 用户服务端口由 .env 管理
           predicates:
-            - Path=/v1/users/**      # 匹配路径 /v1/users/ 开头的所有请求
-          filters:
-            - StripPrefix=1          # 转发到下游服务前，移除路径中的第一个部分 (/v1)
-                                     # 这样 UserService 接收到的路径是 /users/**
+            - Path=/v1/users/**
 
         # 帖子服务路由 (PostService)
-        - id: post-service-route
-          uri: http://localhost:8082 # 占位符 URI，下游服务端口
+        - id: post_service_route
+          uri: http://localhost:${POST_SERVICE_PORT:9082} # 帖子服务端口由 .env 管理
           predicates:
-            - Path=/v1/posts/**      # 匹配路径 /v1/posts/ 开头的所有请求
-          filters:
-            - StripPrefix=1          # 移除 /v1
+            - Path=/v1/posts/**
 
         # 互动服务路由 (InteractionService)
-        - id: interaction-service-route
-          uri: http://localhost:8083 # 占位符 URI
+        - id: interaction_service_route
+          uri: http://localhost:${INTERACTION_SERVICE_PORT:9083} # 互动服务端口由 .env 管理
           predicates:
             - Path=/v1/interactions/**
           filters:
             - StripPrefix=1
 
         # 匹配服务路由 (MatchService)
-        - id: match-service-route
-          uri: http://localhost:8084 # 占位符 URI
+        - id: match_service_route
+          uri: http://localhost:${MATCH_SERVICE_PORT:9084} # 匹配服务端口由 .env 管理
           predicates:
             - Path=/v1/matches/**
           filters:
             - StripPrefix=1
 
         # 聊天服务路由 (ChatService)
-        - id: chat-service-route
-          uri: http://localhost:8085 # 占位符 URI
+        - id: chat_service_route
+          uri: http://localhost:${CHAT_SERVICE_PORT:9085} # 聊天服务端口由 .env 管理
           predicates:
             - Path=/v1/chats/**
           filters:
             - StripPrefix=1
 
         # 区域热门内容服务路由 (RegionalHotContentService)
-        - id: regional-hot-content-service-route
-          uri: http://localhost:8086 # 占位符 URI
+        - id: regional_hot_content_service_route
+          uri: http://localhost:${REGIONAL_CONTENT_SERVICE_PORT:9086} # 区域热门内容服务端口由 .env 管理
           predicates:
             - Path=/v1/content/regional/**
           filters:
             - StripPrefix=1
 
         # 推荐流服务路由 (FeedService)
-        - id: feed-service-route
-          uri: http://localhost:8087 # 占位符 URI
+        - id: feed_service_route
+          uri: http://localhost:${FEED_SERVICE_PORT:9087} # 推荐流服务端口由 .env 管理
           predicates:
             - Path=/v1/feed/**
           filters:
@@ -83,3 +80,15 @@ management:
   endpoint:
     health:
       show-details: always # Show full health details 
+
+# JWT Settings
+vibes:
+  jwt:
+    # This secret key MUST BE a perfect match with the one in user-service.
+    secret: ThisIsAReallyLongAndVerySecureSecretKeyForVibesAppOnlyDoNotShareIt 
+
+# This setting is for Spring Cloud Gateway to discover services from Eureka, Consul, etc.
+# If you are running services locally without a discovery server, use direct URLs like http://localhost:8081
+# 'lb://' scheme stands for 'load balancer' and is used with service discovery.
+main:
+  web-application-type: reactive 

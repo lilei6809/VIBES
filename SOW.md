@@ -176,10 +176,21 @@ graph LR
     *   [x] 实现用户数据到 H2 数据库的持久化 (JPA Entity, Repository)。
     *   [x] 实现密码哈希存储。
     *   [x] 发布 `UserRegisteredEvent` 到 Kafka (使用 Protobuf, 与 Schema Registry 集成)。
-*   [ ] **Task 2.2:** 实现用户登录 API (`POST /v1/users/login`):
-    *   [ ] 定义登录请求 DTO。
-    *   [ ] 实现密码校验。
-    *   [ ] (MVP 简化) 返回成功或失败，不强制实现 JWT/Session。
+*   [ ] **Task 2.2:** 实现用户登录 API (`POST /v1/users/login`) - **分阶段实施路线图**
+    *   **第一阶段：实现核心登录功能 (MVP)**
+        *   [x] **Task 2.2.1:** 定义登录请求 DTO (`LoginRequest.java`) 和响应 DTO (`LoginResponse.java`)。
+        *   [x] **Task 2.2.2:** 在 `UserController` 添加端点，在 `UserService` 中实现核心密码校验逻辑（使用 `PasswordEncoder.matches()`）。
+        *   [x] **Task 2.2.3:** 登录成功返回简单的成功消息和用户ID，登录失败返回清晰的错误信息。
+        *   [x] **Task 2.2.4:** 为基础登录功能编写单元测试和集成测试。
+    *   [x] Task 2.2.5: 创建全局异常处理器 @ControllerAdvice
+        *   **第二阶段：引入JWT，实现无状态认证 (后续迭代)**
+        *   [x] **Task 2.2.5:** 引入 JWT 相关库 (e.g., `jjwt`)。
+        *   [x] **Task 2.2.6:** 登录成功后，生成 JWT 并返回给客户端。
+        *   [x] **Task 2.2.7:** 创建 Spring Security Filter 或自定义拦截器，解析 JWT 并将用户信息注入 `UserContext` (使用 `ThreadLocal`)。
+    *   [x] **Task 2.2.8:** 在 API Gateway 配置 JWT 透传。
+        *   **第三阶段：集成高级特性 (安全与监控 - 后续迭代)**
+        *   [x] **Task 2.2.9 (Kafka 集成):** 定义并发布 `LoginSucceededEvent` 和 `LoginFailedEvent`。
+        *   [ ] **Task 2.2.10 (防爆破 - Redis 限流):** 集成 Redis 并实现登录接口的速率限制。
 *   [ ] **Task 2.3:** 实现获取用户资料 API (`GET /v1/users/{userId}`):
     *   [ ] 定义用户资料响应 DTO。
     *   [ ] 从 H2 数据库查询用户数据。

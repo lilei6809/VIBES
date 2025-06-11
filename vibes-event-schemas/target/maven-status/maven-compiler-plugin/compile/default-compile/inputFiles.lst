@@ -10,6 +10,7 @@ E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vi
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\interaction\pb\PostLikedEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\match\pb\MatchEvents.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\interaction\pb\UserInterestDeclaredEventOrBuilder.java
+E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserLoginFailedEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\post\pb\PostEvents.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\regional_content\pb\HotUserInfoOrBuilder.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserProfileUpdatedEvent.java
@@ -20,12 +21,15 @@ E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vi
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\regional_content\pb\HotPostInfo.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserProfileUpdatedEventOrBuilder.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserRegisteredEvent.java
+E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserLoginSucceededEventOrBuilder.java
+E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserLoginFailedEventOrBuilder.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\match\pb\UserMatchCreatedEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\post\pb\PostCreatedEventOrBuilder.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\common\pb\GeoLocationOrBuilder.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\interaction\pb\UserInterestDeclaredEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\regional_content\pb\HotUserInfo.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\regional_content\pb\RegionalHotContentUpdatedEvent.java
+E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\user\pb\UserLoginSucceededEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\common\pb\Common.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\chat\pb\ChatMessageSentEvent.java
 E:\desktop\cs\VIBES\vibes-event-schemas\target\generated-sources\protobuf\com\vibes\events\post\pb\PostCreatedEvent.java

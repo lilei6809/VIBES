@@ -1,17 +1,24 @@
 package com.vibes.userservice.service;
 
 import com.google.protobuf.Message;
+import com.vibes.events.user.pb.UserLoginFailedEvent;
+import com.vibes.events.user.pb.UserLoginSucceededEvent;
 import com.vibes.events.user.pb.UserRegisteredEvent;
 import com.vibes.common.pb.GeoLocation; // Protobuf GeoLocation class
+import com.vibes.userservice.dto.LoginRequest;
+import com.vibes.userservice.dto.LoginResponse;
 import com.vibes.userservice.dto.UserRegistrationRequestDto;
 import com.vibes.userservice.dto.UserResponseDTO; // Import UserResponseDTO
+import com.vibes.userservice.exception.InvalidCredentialsException;
 import com.vibes.userservice.exception.UserAlreadyExistsException;
+import com.vibes.userservice.exception.UserNotFoundException;
 import com.vibes.userservice.model.OutboxEvent;
 import com.vibes.userservice.model.User;
 import com.vibes.userservice.model.UserPhoto; // For future use if populating avatarUrl from photos list
 import com.vibes.userservice.repository.OutboxEventRepository;
 import com.vibes.userservice.repository.UserRepository;
 import com.vibes.userservice.mapper.UserMapper; // Import the new mapper
+import com.vibes.userservice.security.JwtService;
 import io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +42,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final OutboxEventRepository outboxEventRepository; // Injected repository
     private final PasswordEncoder passwordEncoder;
-    private final KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate; // Re-injecting for the old method
+    private final KafkaTemplate<String, Object> kafkaTemplate; // Generic KafkaTemplate
     private final UserMapper userMapper; // Inject the mapper
+    private final JwtService jwtService; // Inject the JWT Service
 
     @Value("${vibes.kafka.topics.user-registered}")
     private String userRegisteredTopic;
+
+    @Value("${vibes.kafka.topics.user-login-succeeded}")
+    private String userLoginSucceededTopic;
+
+    @Value("${vibes.kafka.topics.user-login-failed}")
+    private String userLoginFailedTopic;
 
     // We still need the schema.registry.url from application properties
     @Value("${spring.kafka.producer.properties.schema.registry.url}")
@@ -120,6 +134,66 @@ public class UserServiceImpl implements UserService {
 
         // Use the mapper to convert the entity to a DTO
         return userMapper.userToUserResponseDTO(savedUser);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LoginResponse loginUser(LoginRequest loginRequest, String ipAddress, String userAgent) {
+        log.info("Attempting to log in user with email: {}", loginRequest.getEmail());
+
+        try {
+            User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new UserNotFoundException("User not found with email: " + loginRequest.getEmail()));
+
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPasswordHash())) {
+                // Publish login failed event for wrong password
+                publishLoginFailedEvent(loginRequest.getEmail(), "INVALID_PASSWORD", ipAddress, userAgent, user.getId());
+                throw new InvalidCredentialsException("Invalid credentials provided.");
+            }
+
+            // Publish login succeeded event
+            publishLoginSucceededEvent(user.getId(), ipAddress, userAgent);
+
+            // 签发 jwt token
+            String token = jwtService.generateToken(user);
+            log.info("JWT generated for user {}", user.getId());
+
+            return new LoginResponse(user.getId(), token, "User logged in successfully.");
+
+        } catch (UserNotFoundException e) {
+            // Publish login failed event for user not found
+            publishLoginFailedEvent(loginRequest.getEmail(), "USER_NOT_FOUND", ipAddress, userAgent, null);
+            log.warn("Login failed for email {}: {}", loginRequest.getEmail(), e.getMessage());
+            throw e; // Re-throw the exception to be handled by the global exception handler
+        }
+    }
+
+    private void publishLoginSucceededEvent(String userId, String ipAddress, String userAgent) {
+        UserLoginSucceededEvent event = UserLoginSucceededEvent.newBuilder()
+                .setUserId(userId)
+                .setLoginTimestamp(System.currentTimeMillis())
+                .setIpAddress(ipAddress)
+                .setUserAgent(userAgent)
+                .build();
+        
+        kafkaTemplate.send(userLoginSucceededTopic, userId, event);
+        log.info("Published UserLoginSucceededEvent for user {}", userId);
+    }
+
+    private void publishLoginFailedEvent(String email, String reason, String ipAddress, String userAgent, String userIdIfFound) {
+        UserLoginFailedEvent.Builder builder = UserLoginFailedEvent.newBuilder()
+                .setEmail(email)
+                .setFailureTimestamp(System.currentTimeMillis())
+                .setReason(reason)
+                .setIpAddress(ipAddress)
+                .setUserAgent(userAgent);
+        
+        if (userIdIfFound != null) {
+            builder.setUserIdIfFound(userIdIfFound);
+        }
+
+        kafkaTemplate.send(userLoginFailedTopic, email, builder.build());
+        log.info("Published UserLoginFailedEvent for email {}", email);
     }
 
     @Transactional
