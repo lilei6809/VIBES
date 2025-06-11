@@ -179,12 +179,6 @@
 
                 <!-- Build Helper Maven Plugin (used in vibes-event-schemas to add generated sources) -->
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${build-helper-maven-plugin.version}</version>
-                </plugin>
-
-                <plugin>
                     <groupId>io.github.ascopes</groupId>
                     <artifactId>protobuf-maven-plugin</artifactId>
                     <version>${ascopes.protobuf-maven-plugin.version}</version>
@@ -248,28 +242,45 @@
         </pluginManagement>
     </build>
 
-    <!-- Adding Confluent repository for their artifacts if not available in Maven Central -->
+    <!-- =================================================================== -->
+    <!-- Repositories                                                        -->
+    <!-- =================================================================== -->
+    <!--
+        Define repositories for dependencies. This is necessary because Confluent's
+        artifacts (like kafka-protobuf-serializer) are not in Maven Central.
+    -->
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
             <id>confluent</id>
+            <name>Confluent</name>
             <url>https://packages.confluent.io/maven/</url>
         </repository>
     </repositories>
 
+    <!--
+        Define repositories for Maven PLUGINS. This is separate from dependency repositories
+        and is crucial for resolving plugins like schema-registry-maven-plugin.
+    -->
     <pluginRepositories>
         <pluginRepository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </pluginRepository>
         <pluginRepository>
             <id>confluent</id>
+            <name>Confluent</name>
             <url>https://packages.confluent.io/maven/</url>
         </pluginRepository>
     </pluginRepositories>

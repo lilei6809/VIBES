@@ -4,87 +4,70 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Parent POM Declaration -->
     <parent>
         <groupId>com.vibes</groupId>
         <artifactId>vibes-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath> <!-- Important: Path to the parent pom -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!-- Module's own ArtifactId -->
     <artifactId>vibes-event-schemas</artifactId>
-    <!-- Packaging for a library JAR (default is jar, so can be omitted) -->
-    <!-- <packaging>jar</packaging> -->
-
     <name>vibes-event-schemas</name>
-    <description>Module for Protobuf event schemas and generated Java classes.</description>
+    <description>VIBES Protobuf Event Schemas and generated Java classes</description>
+
+    <properties>
+        <protobuf.version>3.25.1</protobuf.version>
+        <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+        <grpc.version>1.60.0</grpc.version>
+        <confluent.platform.version>7.4.1</confluent.platform.version>
+    </properties>
 
     <dependencies>
-        <!-- Dependencies specific to this module -->
-        <!-- For vibes-event-schemas, this would include protobuf-java -->
+        <!-- Protobuf and gRPC dependencies -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
         </dependency>
-
-        <!-- In vibes-event-schemas/pom.xml dependencies -->
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <!-- Version typically managed by Spring Boot BOM or add manually -->
-            <scope>test</scope>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
         </dependency>
-
-        <!-- Apache Kafka Clients (for AdminClient in tests) -->
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <scope>test</scope> <!-- Only needed for tests in this module -->
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <version>${grpc.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
+        <!-- Confluent dependencies for Kafka Protobuf Serializer -->
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-protobuf-serializer</artifactId>
-            <!-- Version managed by parent POM's confluent.platform.version -->
-            <scope>test</scope>
+            <version>${confluent.platform.version}</version>
         </dependency>
 
-        <!-- Logging implementation for tests -->
+        <!-- Annotation for suppressing warnings on generated classes -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId> <!-- Or logback-classic from spring-boot-starter -->
-            <scope>test</scope>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
         </dependency>
 
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- =============================================================== -->
+        <!-- TEST DEPENDENCIES                                               -->
+        <!-- =============================================================== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
-        <!-- Testcontainers for Integration Testing -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -103,20 +86,82 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.1</version>
+            </extension>
+        </extensions>
         <plugins>
-            <!-- REMOVE os-maven-plugin -->
-
-            <!-- Protobuf Maven Plugin (io.github.ascopes) -->
-            <!-- Configuration and version are inherited from pluginManagement in parent POM -->
             <plugin>
-                <groupId>io.github.ascopes</groupId>
+                <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
+                <version>${protobuf-plugin.version}</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-
-            <!-- Build Helper Plugin to add generated sources (activated by parent) -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+                <version>${confluent.platform.version}</version>
+                <configuration>
+                    <schemaRegistryUrls>
+                        <param>http://localhost:8081</param>
+                    </schemaRegistryUrls>
+                    <subjects>
+                        <common.proto>${project.basedir}/src/main/proto/vibes/common/common.proto</common.proto>
+                        <vibes.events.user.registered-value>${project.basedir}/src/main/proto/vibes/user/user_events.proto</vibes.events.user.registered-value>
+                        <vibes.events.user.login_succeeded-value>${project.basedir}/src/main/proto/vibes/user/user_events.proto</vibes.events.user.login_succeeded-value>
+                        <vibes.events.user.login_failed-value>${project.basedir}/src/main/proto/vibes/user/user_events.proto</vibes.events.user.login_failed-value>
+                    </subjects>
+                    <schemaTypes>
+                        <common.proto>PROTOBUF</common.proto>
+                        <vibes.events.user.registered-value>PROTOBUF</vibes.events.user.registered-value>
+                        <vibes.events.user.login_succeeded-value>PROTOBUF</vibes.events.user.login_succeeded-value>
+                        <vibes.events.user.login_failed-value>PROTOBUF</vibes.events.user.login_failed-value>
+                    </schemaTypes>
+                    <references>
+                        <vibes.events.user.registered-value>
+                            <reference>
+                                <name>vibes/common/common.proto</name>
+                                <subject>common.proto</subject>
+                            </reference>
+                        </vibes.events.user.registered-value>
+                        <vibes.events.user.login_succeeded-value>
+                            <reference>
+                                <name>vibes/common/common.proto</name>
+                                <subject>common.proto</subject>
+                            </reference>
+                        </vibes.events.user.login_succeeded-value>
+                        <vibes.events.user.login_failed-value>
+                            <reference>
+                                <name>vibes/common/common.proto</name>
+                                <subject>common.proto</subject>
+                            </reference>
+                        </vibes.events.user.login_failed-value>
+                    </references>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>register-schemas</id>
+                        <goals>
+                            <goal>register</goal>
+                        </goals>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

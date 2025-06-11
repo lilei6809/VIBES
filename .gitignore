@@ -1,23 +1,45 @@
-# Java
+# Java build output
 *.class
+
+# Packaged applications
 *.jar
 *.war
 *.ear
 
+# Environment variables file
+# 包含了密码、API密钥等敏感信息，必须忽略！
 .env
 
-# Maven build directories
+# Maven build directory
 target/
 
-# IntelliJ IDEA
+# Maven temporary files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# IDE and editor specific files
 .idea/
 *.iml
 *.iws
 out/
+.vscode/
 
-# Logs
+# User-specific rules
+.cursorrules
+
+# Python cache
+__pycache__/
+
+# Log files
 *.log
+logs/
 
-# OS generated
+# OS generated files
 .DS_Store
 Thumbs.db
